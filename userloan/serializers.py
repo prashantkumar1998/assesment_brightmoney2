@@ -33,16 +33,16 @@ class LoanSerializer(serializers.ModelSerializer):
         if user_annual_income < MINIMUM_ANNUAL_SALARY_TO_AVAIL_LONE:
             raise serializers.ValidationError(f'user annual salary  is lower than {MINIMUM_ANNUAL_SALARY_TO_AVAIL_LONE}')
 
-        if loan_type == 'car' and ammount > CAR_LOAN_MAXIMUM_AMOUNT:
+        if loan_type == 'Car' and ammount > CAR_LOAN_MAXIMUM_AMOUNT:
             raise serializers.ValidationError(f'maximum ammount to be availed for car loan is {CAR_LOAN_MAXIMUM_AMOUNT}')
 
-        if loan_type == 'home' and ammount > HOME_LOAN_MAXIMUM_AMMOUNT:
+        if loan_type == 'Home' and ammount > HOME_LOAN_MAXIMUM_AMMOUNT:
             raise serializers.ValidationError(f'maximum ammount to be availed for home loan is {HOME_LOAN_MAXIMUM_AMMOUNT}')
 
-        if loan_type == 'educational' and ammount > EDUCATIONAL_LOAN_MAXIMUM_AMOUNT:
+        if loan_type == 'Educational' and ammount > EDUCATIONAL_LOAN_MAXIMUM_AMOUNT:
             raise serializers.ValidationError(f'maximum ammount to be availed for education loan is {EDUCATIONAL_LOAN_MAXIMUM_AMOUNT}')
 
-        if loan_type == 'personal' and ammount > PERSONAL_LOAN_MAXIMUM_AMMOUNT:
+        if loan_type == 'Personal' and ammount > PERSONAL_LOAN_MAXIMUM_AMMOUNT:
             raise serializers.ValidationError(f'maximum ammount to be availed for personal loan is {PERSONAL_LOAN_MAXIMUM_AMMOUNT}')
         
         return data
