@@ -125,7 +125,8 @@ class TransactionView(APIView):
         if len(loan_obj_qs) == 0:
             return Response(f"loan_id is not valid",status=status.HTTP_400_BAD_REQUEST)
 
-        final_resp = []
+        past_transaction = []
+        upcoming_transaction = []
         for obj in emi_obj_qs:
             resp = {}
             payment_obj_qs = Payment.objects.filter(emi_id=obj.id)
@@ -135,11 +136,17 @@ class TransactionView(APIView):
                 resp['intrest'] = obj.emi_intrest 
                 resp['Amount_paid'] = payment_obj_qs[0].paid_ammount
 
+                past_transaction.append(resp)
             else:
                 resp['date'] = obj.deu_date
                 resp['Amount_deu'] = obj.emi_amount
+                #not clear what to do with past emi for which no transaction exist so adding it in upcoming
+                upcoming_transaction.append(resp)
 
-            final_resp.append(resp)
+        final_resp = {
+            "past transaction": past_transaction,
+            "upcoming transaction": upcoming_transaction
+        }
 
         return Response(final_resp,status=status.HTTP_201_CREATED)
 
