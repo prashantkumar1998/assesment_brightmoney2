@@ -25,19 +25,24 @@ AADHAR ID: unique user id
 ● Transaction_type: DEBIT or CREDIT. CREDIT is the amount added in the account and
 vice versa Note that this will contain some sample data. You can add more data to check
 your flows.
+
+
 Functionalities Required: -
+1)
 POST API View to register a User’s (availing the loan) details
 ● Endpoint: /api/register-user/
 ● Codes: 200,400
 ● View: Create a User with following details
-● Name
-● Email
-● Annual Income
+        ● Name
+        ● Email
+        ● Annual Income
+
 ● An async celery task must be triggered via this API to calculate the credit score of the
 user.
 ● The logic for calculation of credit score is defined as
 ● The credit score calculation must be done using the transactions from the csv file.
 ● Net credit score minimum and maximum range is 300 and 900. Credit score can’t be
+
 Fractional.
 ● For total account balance (computed as sum(CREDIT - DEBIT) amounts across all
 transactions for the given User) -> If value >= 10,00,000, then Credit Score is maximum
@@ -56,6 +61,8 @@ Response Fields
 ● Error: None if success. Error string in case ingestion was not successful stating apt
 reason
 ● unique_user_id (UUID value) generated for the given User
+
+2)
 POST API View to apply & initiate a User Loan
 ● Endpoint: /api/apply-loan/
 ● Codes: 200,400
@@ -93,6 +100,7 @@ Request Fields
 ● interest_rate: Rate of interest in percentage
 ● term_period: time period of repayment in months
 ● disbursement_date: Date of disbursal
+
 Response Fields
 ● Error: None if success. Error string in case ingestion was not successful stating apt
 reason.
@@ -101,6 +109,7 @@ reason.
 ● Date: EMI date
 ● Amount_due: Amount due on that date
 
+3)
 POST API to register payment made
 ● Endpoint: /api/make-payment/
 ● Codes: 200,400
@@ -110,13 +119,16 @@ POST API to register payment made
 ● Previous EMIs are due
 ● EMI amount should be recalculated if the Amount being paid by the User is less/more
 than the due installment amount.
+
 ● Request fields
 ● Loan_id: Unique identifier to identify the loan
-
 ● Amount (depends upon User)
+
 ● Response
 ● Error: None if no error. Error String in case of failure
 GET API to get statement and future dues
+
+4)
 ● Endpoint: /api/get-statement/
 ● Codes: 200,400
 - View:
@@ -128,8 +140,10 @@ transactions (interest calculation and payment) were due/ done on 1st of every m
 ● Interest on Principal due for that month
 ● Repayment of principal
 ● Statement of all upcoming EMIs
+
 Request fields
 ● Loan_id: Loan for which details are to be fetched
+
 Response fields
 ● Error: None if no error. Error String in case of failure
 ● Past_transactions: Empty list for no past transactions. For valid transactions, each object
